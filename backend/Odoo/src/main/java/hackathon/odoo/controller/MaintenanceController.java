@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MaintenanceController {
     private final MaintenanceService maintenanceService;
+    @GetMapping
+    public ResponseEntity<java.util.List<MaintenanceResponse>> getAllMaintenances() {
+        return ResponseEntity.ok(maintenanceService.getAllMaintenances());
+    }
     @PostMapping
     public ResponseEntity<MaintenanceResponse> createMaintenance(@RequestBody MaintenanceRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(maintenanceService.createMaintenance(request));

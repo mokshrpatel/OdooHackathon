@@ -4,7 +4,7 @@ export const getNotifications = async () => {
   try {
     return await axiosInstance.get('/notifications');
   } catch (error) {
-    if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
+    if (error.message === 'Network Error' || error.code === 'ERR_NETWORK' || error.response?.status === 404) {
       return {
         data: [
           { id: 1, title: 'Trip Dispatched', message: 'Trip to New York, NY is now en route.', timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString(), read: false, type: 'info' },
@@ -21,7 +21,7 @@ export const markAsRead = async (notificationId) => {
   try {
     return await axiosInstance.patch(`/notifications/${notificationId}/read`);
   } catch (error) {
-    if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
+    if (error.message === 'Network Error' || error.code === 'ERR_NETWORK' || error.response?.status === 404) {
       return { data: { message: 'Notification marked as read (mock)' } };
     }
     throw error;

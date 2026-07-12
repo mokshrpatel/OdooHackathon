@@ -5,6 +5,7 @@ import hackathon.odoo.dto.TripRequest;
 import hackathon.odoo.dto.TripResponse;
 import hackathon.odoo.entity.Driver;
 import hackathon.odoo.entity.Trip;
+import java.util.List;
 import hackathon.odoo.entity.Vehicle;
 import hackathon.odoo.enums.DriverStatus;
 import hackathon.odoo.enums.TripStatus;
@@ -20,6 +21,18 @@ public class TripService {
     private final TripRepository tripRepository;
     private final VehicleRepository vehicleRepository;
     private final DriverRepository driverRepository;
+    public List<TripResponse> getAllTrips() {
+        return tripRepository.findAll().stream().map(t -> TripResponse.builder()
+                .id(t.getId())
+                .vehicleId(t.getVehicle().getId())
+                .driverId(t.getDriver().getId())
+                .source(t.getSource())
+                .destination(t.getDestination())
+                .cargoWeight(t.getCargoWeight())
+                .plannedDistance(t.getPlannedDistance())
+                .status(t.getTripStatus())
+                .build()).collect(java.util.stream.Collectors.toList());
+    }
     public TripResponse createTrip(TripRequest request) {
         Vehicle v = vehicleRepository.findById(request.getVehicleId()).orElseThrow();
         if (request.getCargoWeight() > v.getMaxLoadCapacity()) {

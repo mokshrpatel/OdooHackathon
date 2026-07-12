@@ -30,7 +30,16 @@ export const loginUser = async (credentials) => {
   }
 
   try {
-    return await axiosInstance.post('/auth/login', credentials);
+    const response = await axiosInstance.post('/auth/login', credentials);
+    if (response?.data?.user?.role) {
+      const roleMapping = {
+        'FLEETMANAGER': 'Fleet Manager',
+        'DISPATCHER': 'Dispatcher',
+        'SAFETYOFFICER': 'Safety Officer'
+      };
+      response.data.user.role = roleMapping[response.data.user.role] || response.data.user.role;
+    }
+    return response;
   } catch (error) {
     if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
       const customError = new Error('Network Error');

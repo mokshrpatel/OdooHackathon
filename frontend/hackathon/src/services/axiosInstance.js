@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080/api', // Adjust if backend runs on a different port
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api', // Uses env var in production, local backend otherwise
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

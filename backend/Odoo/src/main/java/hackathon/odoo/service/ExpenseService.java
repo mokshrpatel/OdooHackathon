@@ -17,6 +17,9 @@ public class ExpenseService {
     private final ExpenseRepository expenseRepository;
     private final VehicleRepository vehicleRepository;
     private final TripRepository tripRepository;
+    public java.util.List<Expense> getAllExpenses() {
+        return expenseRepository.findAll();
+    }
 
     public Expense recordExpense(ExpenseRequest request) {
         Vehicle v = vehicleRepository.findById(request.getVehicleId()).orElseThrow();

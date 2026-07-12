@@ -4,7 +4,7 @@ export const getROI = async () => {
   try {
     return await axiosInstance.get('/reports/roi');
   } catch (error) {
-    if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
+    if (error.message === 'Network Error' || error.code === 'ERR_NETWORK' || error.response?.status === 404) {
       // Mock data for demo
       return {
         data: [

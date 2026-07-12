@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ExpenseController {
     private final ExpenseService expenseService;
+    
+    @GetMapping
+    public ResponseEntity<java.util.List<Expense>> getAllExpenses() {
+        return ResponseEntity.ok(expenseService.getAllExpenses());
+    }
 
     @PostMapping
     public ResponseEntity<Expense> recordExpense(@RequestBody ExpenseRequest request) {

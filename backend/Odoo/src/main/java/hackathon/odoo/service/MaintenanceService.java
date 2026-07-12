@@ -16,6 +16,16 @@ import java.time.LocalDateTime;
 public class MaintenanceService {
     private final MaintenanceRepository maintenanceRepository;
     private final VehicleRepository vehicleRepository;
+    public java.util.List<MaintenanceResponse> getAllMaintenances() {
+        return maintenanceRepository.findAll().stream().map(m -> MaintenanceResponse.builder()
+                .id(m.getId())
+                .vehicleId(m.getVehicle().getId())
+                .description(m.getDescription())
+                .cost(m.getCost())
+                .status(m.getStatus())
+                .createdAt(m.getCreatedAt())
+                .build()).collect(java.util.stream.Collectors.toList());
+    }
     public MaintenanceResponse createMaintenance(MaintenanceRequest request) {
         Vehicle v = vehicleRepository.findById(request.getVehicleId()).orElseThrow();
         v.setVehicleStatus(VehicleStatus.MAINTENANCE);

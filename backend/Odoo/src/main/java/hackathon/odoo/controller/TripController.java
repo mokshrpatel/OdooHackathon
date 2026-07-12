@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class TripController {
     private final TripService tripService;
+    @GetMapping
+    public ResponseEntity<java.util.List<TripResponse>> getAllTrips() {
+        return ResponseEntity.ok(tripService.getAllTrips());
+    }
     @PostMapping
     public ResponseEntity<TripResponse> createTrip(@RequestBody TripRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(tripService.createTrip(request));
