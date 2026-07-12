@@ -19,7 +19,7 @@ export const getGeneralExpenses = async () => {
 
 export const logExpense = async (data) => {
   try {
-    return await axiosInstance.post('/expenses', { ...data, expenseType: 'GENERAL' });
+    return await axiosInstance.post('/expenses', data);
   } catch (error) {
     if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
       return { data: { message: 'Expense logged successfully (mock)' } };

@@ -10,7 +10,7 @@ const GeneralExpenseForm = ({ onSubmit, onCancel, loading }) => {
   const [formData, setFormData] = useState({
     vehicleId: '',
     tripId: '',
-    expenseType: 'Toll',
+    expenseType: 'TOLL',
     amount: '',
     date: new Date().toISOString().split('T')[0]
   });
@@ -107,10 +107,9 @@ const GeneralExpenseForm = ({ onSubmit, onCancel, loading }) => {
           error={errors.expenseType}
           disabled={loading}
           options={[
-            { label: 'Toll', value: 'Toll' },
-            { label: 'Parking', value: 'Parking' },
-            { label: 'Fines', value: 'Fines' },
-            { label: 'Other', value: 'Other' }
+            { label: 'Toll', value: 'TOLL' },
+            { label: 'Parking', value: 'PARKING' },
+            { label: 'Fines', value: 'FINE' }
           ]}
         />
         

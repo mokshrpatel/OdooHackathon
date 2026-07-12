@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 @Entity
 @Builder
 @Data
+@lombok.NoArgsConstructor
+@lombok.AllArgsConstructor
 public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

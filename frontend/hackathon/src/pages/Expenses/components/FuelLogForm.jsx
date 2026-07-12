@@ -10,7 +10,7 @@ const FuelLogForm = ({ onSubmit, onCancel, loading }) => {
   const [formData, setFormData] = useState({
     vehicleId: '',
     liters: '',
-    cost: '',
+    amount: '',
     date: new Date().toISOString().split('T')[0]
   });
   
@@ -45,7 +45,7 @@ const FuelLogForm = ({ onSubmit, onCancel, loading }) => {
     const rules = {
       vehicleId: { required: true },
       liters: { required: true, isPositive: true },
-      cost: { required: true, isPositive: true },
+      amount: { required: true, isPositive: true },
       date: { required: true }
     };
 
@@ -58,7 +58,7 @@ const FuelLogForm = ({ onSubmit, onCancel, loading }) => {
     onSubmit({
       vehicleId: Number(formData.vehicleId),
       liters: Number(formData.liters),
-      cost: Number(formData.cost),
+      amount: Number(formData.amount),
       date: formData.date
     });
   };
@@ -92,12 +92,12 @@ const FuelLogForm = ({ onSubmit, onCancel, loading }) => {
         
         <Input 
           label="Total Cost ($)" 
-          name="cost"
+          name="amount"
           type="number"
           placeholder="e.g. 65.00"
-          value={formData.cost}
+          value={formData.amount}
           onChange={handleChange}
-          error={errors.cost}
+          error={errors.amount}
           disabled={loading}
         />
         

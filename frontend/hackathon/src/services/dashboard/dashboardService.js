@@ -9,11 +9,12 @@ export const getKPIs = async () => {
       return {
         data: {
           activeVehicles: 24,
-          totalVehicles: 30,
-          onDutyDrivers: 18,
-          totalDrivers: 25,
+          availableVehicles: 3,
+          vehiclesInMaintenance: 3,
           activeTrips: 12,
-          pendingMaintenance: 3,
+          pendingTrips: 2,
+          driversOnDuty: 18,
+          fleetUtilizationPercentage: 80.0
         }
       };
     }

@@ -31,13 +31,19 @@ export const loginUser = async (credentials) => {
 
   try {
     const response = await axiosInstance.post('/auth/login', credentials);
-    if (response?.data?.user?.role) {
-      const roleMapping = {
-        'FLEETMANAGER': 'Fleet Manager',
-        'DISPATCHER': 'Dispatcher',
-        'SAFETYOFFICER': 'Safety Officer'
-      };
-      response.data.user.role = roleMapping[response.data.user.role] || response.data.user.role;
+    if (response?.data?.user) {
+      if (!response.data.user.name) {
+        response.data.user.name = `${response.data.user.fname || ''} ${response.data.user.lname || ''}`.trim() || 'User';
+      }
+      
+      if (response.data.user.role) {
+        const roleMapping = {
+          'FLEETMANAGER': 'Fleet Manager',
+          'DISPATCHER': 'Dispatcher',
+          'SAFETYOFFICER': 'Safety Officer'
+        };
+        response.data.user.role = roleMapping[response.data.user.role] || response.data.user.role;
+      }
     }
     return response;
   } catch (error) {

@@ -8,6 +8,8 @@ import lombok.Data;
 @Entity
 @Builder
 @Data
+@lombok.NoArgsConstructor
+@lombok.AllArgsConstructor
 public class Trip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
