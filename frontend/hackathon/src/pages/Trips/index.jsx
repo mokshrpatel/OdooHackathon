@@ -17,20 +17,14 @@ import styles from './Trips.module.css';
 import useApi from '../../hooks/useApi';
 import useAuth from '../../hooks/useAuth';
 import useNotification from '../../hooks/useNotification';
-import { createTrip, dispatchTrip, completeTrip, cancelTrip } from '../../services/trips/tripService';
+import { getTrips, createTrip, dispatchTrip, completeTrip, cancelTrip } from '../../services/trips/tripService';
 import { hasPermission, PERMISSIONS } from '../../utils/rolePermissions';
 
 const Trips = () => {
   const { user } = useAuth();
   const { addNotification } = useNotification();
   
-  // Custom fetch function since trips requires its own GET API which was missing in API docs but necessary for the page.
-  // We will assume GET /api/trips exists, standard REST pattern.
-  const fetchAllTrips = async () => {
-    return await axiosInstance.get('/trips');
-  };
-  
-  const { execute: getTrips, data, loading, error } = useApi(fetchAllTrips);
+  const { execute: fetchTripsData, data, loading, error } = useApi(getTrips);
   const { execute: callCreate, loading: createLoading } = useApi(createTrip);
   const { execute: callDispatch } = useApi(dispatchTrip);
   const { execute: callCancel } = useApi(cancelTrip);
@@ -45,8 +39,8 @@ const Trips = () => {
   const [actionType, setActionType] = useState(null); // 'cancel' or 'dispatch' or 'complete'
 
   useEffect(() => {
-    getTrips().catch(() => {});
-  }, [getTrips]);
+    fetchTripsData().catch(() => {});
+  }, [fetchTripsData]);
 
   const canManage = hasPermission(user?.role, PERMISSIONS.TRIPS);
 
@@ -55,7 +49,7 @@ const Trips = () => {
       await callCreate(tripData);
       addNotification('Draft trip created successfully.', 'success');
       setIsCreateOpen(false);
-      getTrips();
+      fetchTripsData();
     } catch (err) {
       addNotification(err.response?.data?.message || 'Failed to create trip.', 'error');
     }
@@ -70,7 +64,7 @@ const Trips = () => {
     try {
       await callDispatch(activeTrip.id);
       addNotification('Trip successfully dispatched.', 'success');
-      getTrips();
+      fetchTripsData();
     } catch (err) {
       addNotification(err.response?.data?.message || 'Failed to dispatch trip.', 'error');
     }
@@ -81,7 +75,7 @@ const Trips = () => {
     try {
       await callCancel(activeTrip.id);
       addNotification('Trip cancelled successfully.', 'success');
-      getTrips();
+      fetchTripsData();
     } catch (err) {
       addNotification(err.response?.data?.message || 'Failed to cancel trip.', 'error');
     }
@@ -93,7 +87,7 @@ const Trips = () => {
       await callComplete(activeTrip.id, metrics);
       addNotification('Trip successfully completed.', 'success');
       setActiveTrip(null);
-      getTrips();
+      fetchTripsData();
     } catch (err) {
       addNotification(err.response?.data?.message || 'Failed to complete trip.', 'error');
     }
@@ -134,9 +128,32 @@ const Trips = () => {
             />
           </div>
           
-          {error && !data ? (
-            <EmptyState icon="⚠️" title="Error Loading Trips" description={error} />
-          ) : filteredTrips.length === 0 ? (
+          {error && !data && (
+            <div style={{
+              backgroundColor: 'rgba(239, 68, 68, 0.05)',
+              borderLeft: '4px solid var(--danger)',
+              color: 'var(--danger)',
+              padding: '12px 16px',
+              borderRadius: 'var(--radius-sm)',
+              marginBottom: '24px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <div><strong>Warning:</strong> Failed to load trips. ({error})</div>
+              <button 
+                onClick={() => fetchTripsData()}
+                style={{ 
+                  background: 'transparent', border: '1px solid var(--danger)', 
+                  color: 'var(--danger)', padding: '4px 12px', borderRadius: '4px', cursor: 'pointer' 
+                }}
+              >
+                Retry
+              </button>
+            </div>
+          )}
+          
+          {filteredTrips.length === 0 && (!error || data) ? (
             <EmptyState 
               icon="📍" 
               title="No trips found" 

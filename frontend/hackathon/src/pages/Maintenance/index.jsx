@@ -16,19 +16,14 @@ import styles from './Maintenance.module.css';
 import useApi from '../../hooks/useApi';
 import useAuth from '../../hooks/useAuth';
 import useNotification from '../../hooks/useNotification';
-import { createMaintenanceRecord, closeMaintenanceRecord } from '../../services/maintenance/maintenanceService';
+import { getMaintenanceRecords, createMaintenanceRecord, closeMaintenanceRecord } from '../../services/maintenance/maintenanceService';
 import { hasPermission, PERMISSIONS } from '../../utils/rolePermissions';
 
 const Maintenance = () => {
   const { user } = useAuth();
   const { addNotification } = useNotification();
   
-  // Custom fetch function since maintenance requires its own GET API
-  const fetchAllMaintenance = async () => {
-    return await axiosInstance.get('/maintenance');
-  };
-  
-  const { execute: getRecords, data, loading, error } = useApi(fetchAllMaintenance);
+  const { execute: getRecords, data, loading, error } = useApi(getMaintenanceRecords);
   const { execute: callCreate, loading: createLoading } = useApi(createMaintenanceRecord);
   const { execute: callClose } = useApi(closeMaintenanceRecord);
 
@@ -101,9 +96,32 @@ const Maintenance = () => {
             />
           </div>
           
-          {error && !data ? (
-            <EmptyState icon="⚠️" title="Error Loading Logs" description={error} />
-          ) : filteredRecords.length === 0 ? (
+          {error && !data && (
+            <div style={{
+              backgroundColor: 'rgba(239, 68, 68, 0.05)',
+              borderLeft: '4px solid var(--danger)',
+              color: 'var(--danger)',
+              padding: '12px 16px',
+              borderRadius: 'var(--radius-sm)',
+              marginBottom: '24px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <div><strong>Warning:</strong> Failed to load maintenance logs. ({error})</div>
+              <button 
+                onClick={() => getRecords()}
+                style={{ 
+                  background: 'transparent', border: '1px solid var(--danger)', 
+                  color: 'var(--danger)', padding: '4px 12px', borderRadius: '4px', cursor: 'pointer' 
+                }}
+              >
+                Retry
+              </button>
+            </div>
+          )}
+          
+          {filteredRecords.length === 0 && (!error || data) ? (
             <EmptyState 
               icon="📋" 
               title="No records found" 

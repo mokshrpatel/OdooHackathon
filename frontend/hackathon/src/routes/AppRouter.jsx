@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { RoutePaths } from './RoutePaths';
 import ProtectedRoute from './ProtectedRoute';
+import { PERMISSIONS } from '../utils/rolePermissions';
 
 // Layouts
 import AuthLayout from '../layouts/AuthLayout';
@@ -19,6 +20,15 @@ import Reports from '../pages/Reports';
 import Settings from '../pages/Settings';
 import Unauthorized from '../pages/Unauthorized';
 import NotFound from '../pages/NotFound';
+import useAuth from '../hooks/useAuth';
+
+const RootRedirect = () => {
+  const { user } = useAuth();
+  if (user?.role === 'Safety Officer') {
+    return <Navigate to={RoutePaths.DRIVERS} replace />;
+  }
+  return <Navigate to={RoutePaths.DASHBOARD} replace />;
+};
 
 const AppRouter = () => {
   return (
@@ -32,15 +42,33 @@ const AppRouter = () => {
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route element={<DashboardLayout />}>
-            <Route path="/" element={<Navigate to={RoutePaths.DASHBOARD} replace />} />
-            <Route path={RoutePaths.DASHBOARD} element={<Dashboard />} />
-            <Route path={RoutePaths.VEHICLES} element={<Vehicles />} />
-            <Route path={RoutePaths.DRIVERS} element={<Drivers />} />
-            <Route path={RoutePaths.TRIPS} element={<Trips />} />
-            <Route path={RoutePaths.MAINTENANCE} element={<Maintenance />} />
-            <Route path={RoutePaths.EXPENSES} element={<Expenses />} />
-            <Route path={RoutePaths.REPORTS} element={<Reports />} />
-            <Route path={RoutePaths.SETTINGS} element={<Settings />} />
+            <Route path="/" element={<RootRedirect />} />
+            <Route element={<ProtectedRoute allowedRoles={PERMISSIONS.DASHBOARD} />}>
+              <Route path={RoutePaths.DASHBOARD} element={<Dashboard />} />
+            </Route>
+            <Route element={<ProtectedRoute allowedRoles={PERMISSIONS.VEHICLES} />}>
+              <Route path={RoutePaths.VEHICLES} element={<Vehicles />} />
+            </Route>
+            <Route element={<ProtectedRoute allowedRoles={PERMISSIONS.DRIVERS} />}>
+              <Route path={RoutePaths.DRIVERS} element={<Drivers />} />
+            </Route>
+            <Route element={<ProtectedRoute allowedRoles={PERMISSIONS.TRIPS} />}>
+              <Route path={RoutePaths.TRIPS} element={<Trips />} />
+            </Route>
+            <Route element={<ProtectedRoute allowedRoles={PERMISSIONS.MAINTENANCE} />}>
+              <Route path={RoutePaths.MAINTENANCE} element={<Maintenance />} />
+            </Route>
+            <Route element={<ProtectedRoute allowedRoles={PERMISSIONS.EXPENSES} />}>
+              <Route path={RoutePaths.EXPENSES} element={<Expenses />} />
+            </Route>
+            
+            <Route element={<ProtectedRoute allowedRoles={PERMISSIONS.REPORTS} />}>
+              <Route path={RoutePaths.REPORTS} element={<Reports />} />
+            </Route>
+            
+            <Route element={<ProtectedRoute allowedRoles={PERMISSIONS.SETTINGS} />}>
+              <Route path={RoutePaths.SETTINGS} element={<Settings />} />
+            </Route>
           </Route>
         </Route>
 

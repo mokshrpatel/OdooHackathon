@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Navbar.module.css';
 import Badge from '../../ui/Badge';
+import NotificationBell from './NotificationBell';
 
 const Navbar = ({ user = { name: 'Admin User', role: 'Fleet Manager' } }) => {
   return (
@@ -10,7 +11,7 @@ const Navbar = ({ user = { name: 'Admin User', role: 'Fleet Manager' } }) => {
         <Badge variant="info">v1.0 Beta</Badge>
       </div>
       <div className={styles.right}>
-        <div style={{ cursor: 'pointer', color: 'var(--text-muted)' }}>🔔</div>
+        <NotificationBell />
         <div className={styles.profile}>
           <div className={styles.avatar}>
             {user.name.charAt(0)}

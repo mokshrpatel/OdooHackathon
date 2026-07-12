@@ -4,6 +4,9 @@ import Card, { CardBody } from '../../components/ui/Card';
 import EmptyState from '../../components/common/EmptyState';
 
 import UserForm from './components/UserForm';
+import ProfileSettings from './components/ProfileSettings';
+import NotificationSettings from './components/NotificationSettings';
+import SystemPreferences from './components/SystemPreferences';
 import styles from './Settings.module.css';
 
 import useApi from '../../hooks/useApi';
@@ -38,7 +41,6 @@ const Settings = () => {
     try {
       await callCreateUser(userData);
       addNotification('User account created successfully.', 'success');
-      // The form does not clear automatically to allow rapid creation, but in a real app you might want to reset it.
     } catch (err) {
       addNotification(err.response?.data?.message || 'Failed to create user account.', 'error');
     }
@@ -91,13 +93,36 @@ const Settings = () => {
                 </div>
               )}
 
-              {activeTab !== 'users' && (
-                <EmptyState 
-                  icon="🚧" 
-                  title="Under Construction" 
-                  description="This settings module is currently being developed." 
-                />
+              {activeTab === 'profile' && (
+                <div>
+                  <div className={styles.sectionTitle}>My Profile</div>
+                  <p style={{ color: 'var(--text-muted)', marginBottom: '24px', fontSize: '0.875rem' }}>
+                    Update your personal information and preferences.
+                  </p>
+                  <ProfileSettings />
+                </div>
               )}
+
+              {activeTab === 'notifications' && (
+                <div>
+                  <div className={styles.sectionTitle}>Notification Preferences</div>
+                  <p style={{ color: 'var(--text-muted)', marginBottom: '24px', fontSize: '0.875rem' }}>
+                    Configure how and when you want to be alerted.
+                  </p>
+                  <NotificationSettings />
+                </div>
+              )}
+
+              {activeTab === 'system' && (
+                <div>
+                  <div className={styles.sectionTitle}>System Preferences</div>
+                  <p style={{ color: 'var(--text-muted)', marginBottom: '24px', fontSize: '0.875rem' }}>
+                    Configure global application settings.
+                  </p>
+                  <SystemPreferences />
+                </div>
+              )}
+
             </CardBody>
           </Card>
         </div>

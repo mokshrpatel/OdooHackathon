@@ -84,9 +84,32 @@ const Vehicles = () => {
             />
           </div>
           
-          {error && !data ? (
-            <EmptyState icon="⚠️" title="Error Loading Vehicles" description={error} />
-          ) : filteredVehicles.length === 0 ? (
+          {error && !data && (
+            <div style={{
+              backgroundColor: 'rgba(239, 68, 68, 0.05)',
+              borderLeft: '4px solid var(--danger)',
+              color: 'var(--danger)',
+              padding: '12px 16px',
+              borderRadius: 'var(--radius-sm)',
+              marginBottom: '24px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <div><strong>Warning:</strong> Failed to load vehicles. ({error})</div>
+              <button 
+                onClick={() => fetchVehicles()}
+                style={{ 
+                  background: 'transparent', border: '1px solid var(--danger)', 
+                  color: 'var(--danger)', padding: '4px 12px', borderRadius: '4px', cursor: 'pointer' 
+                }}
+              >
+                Retry
+              </button>
+            </div>
+          )}
+          
+          {filteredVehicles.length === 0 && (!error || data) ? (
             <EmptyState 
               icon="🚚" 
               title="No vehicles found" 

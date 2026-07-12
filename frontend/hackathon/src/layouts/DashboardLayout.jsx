@@ -1,10 +1,10 @@
-import React from 'react';
+import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/layout/Sidebar';
 import Navbar from '../components/layout/Navbar';
 import styles from './DashboardLayout.module.css';
 import useAuth from '../hooks/useAuth';
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = () => {
   const { user } = useAuth();
   
   const displayUser = user || { name: 'Demo User', role: 'Fleet Manager' };
@@ -17,7 +17,7 @@ const DashboardLayout = ({ children }) => {
       <div className={styles.mainWrapper}>
         <Navbar user={displayUser} />
         <main className={styles.content}>
-          {children}
+          <Outlet />
         </main>
       </div>
     </div>

@@ -17,20 +17,14 @@ import useApi from '../../hooks/useApi';
 import useAuth from '../../hooks/useAuth';
 import useNotification from '../../hooks/useNotification';
 import { recordFuelLog } from '../../services/expenses/fuelService';
-import { recordGeneralExpense } from '../../services/expenses/expenseService';
+import { getAllExpenses, logExpense as recordGeneralExpense } from '../../services/expenses/expenseService';
 import { hasPermission, PERMISSIONS } from '../../utils/rolePermissions';
 
 const Expenses = () => {
   const { user } = useAuth();
   const { addNotification } = useNotification();
   
-  // Custom fetch function to retrieve all expenses
-  const fetchAllExpenses = async () => {
-    // In a real scenario, the backend would combine fuel and general expenses or provide an aggregate endpoint
-    return await axiosInstance.get('/expenses');
-  };
-  
-  const { execute: getRecords, data, loading, error } = useApi(fetchAllExpenses);
+  const { execute: getRecords, data, loading, error } = useApi(getAllExpenses);
   const { execute: submitFuel, loading: fuelLoading } = useApi(recordFuelLog);
   const { execute: submitGeneral, loading: generalLoading } = useApi(recordGeneralExpense);
 
@@ -113,9 +107,32 @@ const Expenses = () => {
             />
           </div>
           
-          {error && !data ? (
-            <EmptyState icon="⚠️" title="Error Loading Expenses" description={error} />
-          ) : filteredRecords.length === 0 ? (
+          {error && !data && (
+            <div style={{
+              backgroundColor: 'rgba(239, 68, 68, 0.05)',
+              borderLeft: '4px solid var(--danger)',
+              color: 'var(--danger)',
+              padding: '12px 16px',
+              borderRadius: 'var(--radius-sm)',
+              marginBottom: '24px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <div><strong>Warning:</strong> Failed to load expenses. ({error})</div>
+              <button 
+                onClick={() => getRecords()}
+                style={{ 
+                  background: 'transparent', border: '1px solid var(--danger)', 
+                  color: 'var(--danger)', padding: '4px 12px', borderRadius: '4px', cursor: 'pointer' 
+                }}
+              >
+                Retry
+              </button>
+            </div>
+          )}
+          
+          {filteredRecords.length === 0 && (!error || data) ? (
             <EmptyState 
               icon="💳" 
               title="No expense logs found" 

@@ -36,6 +36,10 @@ const Authentication = () => {
             <span>dispatcher_02@transitops.com</span>
             <span>temporaryPassword123</span>
           </li>
+          <li>
+            <span>safety@transitops.com</span>
+            <span>safetyfirst123</span>
+          </li>
         </ul>
       </div>
     </div>

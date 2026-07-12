@@ -26,9 +26,6 @@ const Dashboard = () => {
   }
 
   const hasError = kpiError || roiError;
-  if (hasError && !kpiData) {
-    return <EmptyState icon="⚠️" title="Failed to load dashboard" description={hasError} />;
-  }
 
   return (
     <div>
@@ -36,10 +33,36 @@ const Dashboard = () => {
         title="Dashboard Overview" 
         action={<span style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>Live Metrics</span>}
       />
+
+      {hasError && (
+        <div style={{
+          backgroundColor: 'rgba(239, 68, 68, 0.05)',
+          borderLeft: '4px solid var(--danger)',
+          color: 'var(--danger)',
+          padding: '12px 16px',
+          borderRadius: 'var(--radius-sm)',
+          marginBottom: '24px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <div><strong>Warning:</strong> Some metrics failed to load. Displaying cached or partial data where possible. ({hasError})</div>
+          <button 
+            onClick={() => { fetchKPIs(); fetchROI(); }}
+            style={{ 
+              background: 'transparent', border: '1px solid var(--danger)', 
+              color: 'var(--danger)', padding: '4px 12px', borderRadius: '4px', cursor: 'pointer' 
+            }}
+          >
+            Retry
+          </button>
+        </div>
+      )}
       
       <KPICards kpis={kpiData} />
       
       <div className={styles.sectionTitle}>Financial Performance</div>
+      
       <ROITable roiData={roiData} loading={roiLoading} />
     </div>
   );

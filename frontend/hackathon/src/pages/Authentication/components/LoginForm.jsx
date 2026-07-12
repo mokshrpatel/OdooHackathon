@@ -86,8 +86,15 @@ const LoginForm = () => {
       />
       
       {apiError && (
-        <div style={{ color: 'var(--danger)', fontSize: '0.875rem', padding: '8px', backgroundColor: 'rgba(239, 68, 68, 0.1)', borderRadius: '4px' }}>
-          {apiError}
+        <div style={{ 
+          color: 'var(--danger)', 
+          fontSize: '0.875rem', 
+          padding: '12px 16px', 
+          backgroundColor: 'rgba(239, 68, 68, 0.05)', 
+          borderLeft: '4px solid var(--danger)',
+          borderRadius: 'var(--radius-sm)' 
+        }}>
+          <strong>Authentication Error: </strong>{apiError}
         </div>
       )}
 

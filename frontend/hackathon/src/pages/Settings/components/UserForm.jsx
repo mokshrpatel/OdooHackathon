@@ -75,7 +75,6 @@ const UserForm = ({ onSubmit, loading }) => {
           error={errors.roleId}
           disabled={loading}
           options={[
-            { label: 'Fleet Manager (Full Access)', value: '1' },
             { label: 'Dispatcher (Operations)', value: '2' },
             { label: 'Safety Officer (Drivers & Compliance)', value: '3' }
           ]}
