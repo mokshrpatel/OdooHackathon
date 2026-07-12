@@ -21,6 +21,6 @@ public class Test {
 
         return ResponseEntity
                 .status(200)
-                .body("Frontend and backend is integrated successfully" + darsh.getName() + moksh.getName());
+                .body("Frontend and backend is integrated successfully");
     }
 }

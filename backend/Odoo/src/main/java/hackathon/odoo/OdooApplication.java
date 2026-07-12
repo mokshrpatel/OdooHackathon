@@ -9,5 +9,4 @@ public class OdooApplication {
     public static void main(String[] args) {
         SpringApplication.run(OdooApplication.class, args);
     }
-
 }
