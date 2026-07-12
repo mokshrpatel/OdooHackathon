@@ -23,10 +23,6 @@ import NotFound from '../pages/NotFound';
 import useAuth from '../hooks/useAuth';
 
 const RootRedirect = () => {
-  const { user } = useAuth();
-  if (user?.role === 'Safety Officer') {
-    return <Navigate to={RoutePaths.DRIVERS} replace />;
-  }
   return <Navigate to={RoutePaths.DASHBOARD} replace />;
 };
 

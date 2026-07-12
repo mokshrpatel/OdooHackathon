@@ -4,12 +4,14 @@ import Loader from '../../components/ui/Loader';
 import EmptyState from '../../components/common/EmptyState';
 import KPICards from './components/KPICards';
 import ROITable from './components/ROITable';
+import useAuth from '../../hooks/useAuth';
 import useApi from '../../hooks/useApi';
 import { getKPIs } from '../../services/dashboard/dashboardService';
 import { getROI } from '../../services/reports/reportService';
 import styles from './Dashboard.module.css';
 
 const Dashboard = () => {
+  const { user } = useAuth();
   const { execute: fetchKPIs, data: kpiData, loading: kpiLoading, error: kpiError } = useApi(getKPIs);
   const { execute: fetchROI, data: roiData, loading: roiLoading, error: roiError } = useApi(getROI);
 
@@ -61,9 +63,12 @@ const Dashboard = () => {
       
       <KPICards kpis={kpiData} />
       
-      <div className={styles.sectionTitle}>Financial Performance</div>
-      
-      <ROITable roiData={roiData} loading={roiLoading} />
+      {user?.role !== 'Safety Officer' && (
+        <>
+          <div className={styles.sectionTitle}>Financial Performance</div>
+          <ROITable roiData={roiData} loading={roiLoading} />
+        </>
+      )}
     </div>
   );
 };
