@@ -1,0 +1,36 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.forgotPassword {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.forgotPassword:hover {
+  text-decoration: underline;
+}
+
+.submitBtn {
+  margin-top: 8px;
+  padding: 12px;
+  font-size: 1rem;
+}

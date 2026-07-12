@@ -1,0 +1,19 @@
+.authContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-main);
+  background-image: radial-gradient(circle at center, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+  padding: 24px;
+}
+
+.authContent {
+  width: 100%;
+  max-width: 420px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 32px;
+}

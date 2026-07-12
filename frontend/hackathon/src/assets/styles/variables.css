@@ -1,0 +1,35 @@
+:root {
+  /* Dark Premium Theme - Zinc/Slate Palette */
+  --bg-main: #09090b;
+  --bg-surface: #18181b;
+  --bg-surface-hover: #27272a;
+  
+  --text-main: #fafafa;
+  --text-muted: #a1a1aa;
+  
+  --border-color: #27272a;
+  --border-focus: #3b82f6;
+  
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --primary-glow: rgba(59, 130, 246, 0.2);
+  
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  
+  --success: #22c55e;
+  --warning: #f59e0b;
+  
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-glow: 0 0 20px var(--primary-glow);
+  
+  --transition: 0.2s ease;
+  
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
